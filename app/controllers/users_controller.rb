@@ -1,10 +1,12 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :require_user, only: [:edit, :update]
+  before_action :require_same_user, only: [:edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page], per_page: 20)
   end
 
   # GET /users/1
@@ -26,14 +28,12 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if @user.save
+      @user.send_activation_email
+      flash[:info] = "Please check your mail to activate your account."
+      redirect_to root_path
+    else
+      render "new"
     end
   end
 
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to @user, notice: "User #{@user.username} was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -55,20 +55,29 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user.destroy
+    session[:user_id] = nil if @user == current_user
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def user_params
-      params.require(:user).permit(:username, :email, :admin, :activated)
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def user_params
+    params.require(:user).permit(:username, :email, :admin, :activated)
+  end
+
+  def require_same_user
+    if current_user != @user && !current_user.admin?
+      flash[:alert] = "No permission"
+      redirect_to @user
     end
+  end
 end

@@ -10,15 +10,16 @@
   <%= @user.email %>
 </p>
 
-<p>
-  <strong>Admin:</strong>
-  <%= @user.admin %>
-</p>
+<% if logged_in? && (current_user == @user || current_user.admin?) %>
+  <p>
+    <strong>Password:</strong>
+    <%= link_to 'Edit profile', edit_user_path(@user) %>
+  </p>
+  <p>
+    <%= link_to 'Delete Account', @user, method: :delete, data: { confirm: 'Are you sure?' }, class: "alert" %>
+  </p>
+<% end %>
 
-<p>
-  <strong>Activated:</strong>
-  <%= @user.activated %>
-</p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= link_to 'Users', users_path %>

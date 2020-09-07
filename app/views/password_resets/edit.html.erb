@@ -1,0 +1,17 @@
+<% provide(:title, "reset password") %>
+
+<h1>PasswordResets#edit</h1>
+
+<%= form_for(@user, url: password_reset_path(params[:id])) do |form| %>
+  <%= render "layouts/error_messages", obj: form.object %>
+
+  <%= hidden_field_tag :email, @user.email %>
+
+  <div class="field">
+    <%= form.label :password %>
+    <%= form.password_field :password, id: :user_password, placeholder: "password here" %>
+  </div>
+  <div class="actions">
+    <%= form.submit("Update Password") %>
+  </div>
+<% end %>

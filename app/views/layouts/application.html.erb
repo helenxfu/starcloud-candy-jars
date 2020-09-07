@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>StarcloudCandyJars</title>
+    <title><%= yield(:title) %><%= " | " if :title != "" %>Starcloud CandyJars</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -10,6 +10,17 @@
 
   <body>
     <%= render 'layouts/navigation' %>
-    <%= yield %>
+    <div>
+      <% flash.each_with_index do |message, i| %>
+        <div class="flash-msg alert alert-<%= message[0] %>">
+          <%= message[1] %>
+          <button class="close-btn" onclick="document.getElementsByClassName('flash-msg')[<%= i %>].style.display='none'">
+            <span>&times;</span>
+        </button>
+        </div>
+      <% end %>
+      <%= yield %>
+      <%= debug(params) if Rails.env.development? %>
+    </div>
   </body>
 </html>
