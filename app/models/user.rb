@@ -9,6 +9,9 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 105 }, format: { with: VALID_EMAIL_REGEX }
   validates :password, presence: true, length: { minimum: 6, maximum: 50 }
+
+  has_many :messages
+
   has_secure_password
 
   # Returns hash digest of given string
@@ -65,5 +68,9 @@ class User < ApplicationRecord
   def create_activation_digest
     self.activation_token = User.new_token
     self.activation_digest = User.digest(activation_token) # before_create so does not save into database
+    if Rails.env.development?
+      puts "testing sign up function in local environment"
+      puts activation_token
+    end
   end
 end

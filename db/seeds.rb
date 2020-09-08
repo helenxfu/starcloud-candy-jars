@@ -21,3 +21,12 @@ User.create!(username: "Admin User",
   password = "password"
   User.create!(username: username, email: email, password: password, activated: true, activated_at: Time.zone.now)
 end
+
+users = User.order(:created_at).take(10)
+
+users.each do |user|
+  rand(30).times do
+    body = Faker::Lorem.paragraph(sentence_count = rand(1..5))
+    user.messages.create!(body: body)
+  end
+end
