@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200907074652) do
+ActiveRecord::Schema.define(version: 20200909121004) do
 
   create_table "messages", force: :cascade do |t|
     t.text "body"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "priority", default: 0, null: false
+    t.boolean "completed", default: false, null: false
+    t.date "deadline", default: "2020-09-09", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

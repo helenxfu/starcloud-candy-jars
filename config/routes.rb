@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tasks
   get "chatroom", to: "chatroom#index"
   resources :messages, only: [:create, :destroy]
   root "pages#home"
