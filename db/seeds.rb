@@ -26,7 +26,7 @@ users = User.order(:created_at).take(10)
 
 users.each do |user|
   rand(30).times do
-    body = Faker::Lorem.paragraph(sentence_count = rand(1..5))
+    body = Faker::Lorem.paragraph(sentence_count: rand(1..5))
     user.messages.create!(body: body)
   end
 end

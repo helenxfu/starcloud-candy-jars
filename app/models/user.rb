@@ -68,9 +68,9 @@ class User < ApplicationRecord
   def create_activation_digest
     self.activation_token = User.new_token
     self.activation_digest = User.digest(activation_token) # before_create so does not save into database
-    if Rails.env.development?
-      puts "testing sign up function in local environment"
-      puts activation_token
-    end
+    # if Rails.env.development?
+    #   puts "testing sign up function in local environment"
+    #   puts activation_token
+    # end
   end
 end
