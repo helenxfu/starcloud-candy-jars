@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200909121004) do
+ActiveRecord::Schema.define(version: 20200910101333) do
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "priority"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_categories_on_user_id"
+  end
 
   create_table "messages", force: :cascade do |t|
     t.text "body"
@@ -19,13 +28,20 @@ ActiveRecord::Schema.define(version: 20200909121004) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "task_categories", force: :cascade do |t|
+    t.integer "task_id"
+    t.integer "category_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "name", null: false
     t.integer "priority", default: 0, null: false
     t.boolean "completed", default: false, null: false
-    t.date "deadline", default: "2020-09-09", null: false
+    t.date "deadline", default: "2020-09-10", null: false
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
