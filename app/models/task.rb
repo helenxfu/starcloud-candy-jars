@@ -6,4 +6,5 @@ class Task < ApplicationRecord
   validates :priority, presence: true
   validates :completed, presence: true
   validates :deadline, presence: true
+  validates :user_id, presence: true
 end
