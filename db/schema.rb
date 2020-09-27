@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200910101333) do
+ActiveRecord::Schema.define(version: 20200927151301) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20200910101333) do
     t.string "name", null: false
     t.integer "priority", default: 0, null: false
     t.boolean "completed", default: false, null: false
-    t.date "deadline", default: "2020-09-10", null: false
+    t.date "deadline", null: false
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

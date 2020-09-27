@@ -4,6 +4,7 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
+    @categories = current_user.categories.paginate(page: params[:page], per_page: 20)
     @task = Task.new
     @tasks = current_user.tasks.paginate(page: params[:page], per_page: 50)
   end
@@ -57,6 +58,18 @@ class TasksController < ApplicationController
     end
   end
 
+  def delete_all
+    current_user.tasks.delete_all
+    flash[:success] = "Task updated!"
+    redirect_back(fallback_location: root_url)
+  end
+
+  def delete_completed
+    current_user.tasks.where(completed: true).delete_all
+    flash[:success] = "Deleted completed"
+    redirect_back(fallback_location: root_url)
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -66,6 +79,6 @@ class TasksController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def task_params
-    params.require(:task).permit(:name, :priority, :completed, :deadline)
+    params.require(:task).permit(:name, :priority, :completed, :deadline, category_ids: [])
   end
 end

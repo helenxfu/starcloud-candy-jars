@@ -2,8 +2,12 @@
 
 <h1>Tasks</h1>
 
+<span>Task count :</span><%= current_user.tasks.count %>
+<span>Completed count :</span><%= current_user.tasks.where(completed: true).count %>
+
 <%= render 'form', task: @task %>
 
+<%= render 'categories/categories_list', categories: @categories %>
 <%= render 'filter', tasks: @tasks %>
 
 <%= render 'task', tasks: @tasks %>

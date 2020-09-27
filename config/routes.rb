@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :categories
-  resources :tasks
+  resources :tasks do
+    collection do
+      get :delete_all, :delete_completed
+    end
+  end
   get "chatroom", to: "chatroom#index"
   resources :messages, only: [:create, :destroy]
   root "pages#home"

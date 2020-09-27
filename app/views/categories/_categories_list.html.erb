@@ -1,0 +1,26 @@
+
+
+<h2>Categories</h2>
+<%= will_paginate categories, :container => false %>
+<table>
+  <thead>
+    <tr>
+      <th>Priority</th>
+      <th>Name</th>
+      <th>Count</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% categories.each do |category| %>
+      <tr>
+        <td><%= category.priority == 0 ? "Low" : category.priority == 1 ? "Mid" : "High" %></td>
+        <td><%= link_to category.name, category %></td>
+        <td><%= category.tasks.count %></td>
+        <td><%= link_to 'Edit', edit_category_path(category) %></td>
+        <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure? This will not delete the related tasks' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
