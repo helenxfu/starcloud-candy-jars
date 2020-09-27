@@ -1,0 +1,47 @@
+<div class="flickr_pagination">
+  <%= will_paginate tasks, :container => false %>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Priority</th>
+      <th>Completed</th>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Deadline</th>
+      <th>Remaining</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% tasks.each do |task| %>
+      <tr>
+        <td><%= task.priority == 0 ? "Low" : task.priority == 1 ? "Mid" : "High" %></td>
+        <td>
+          <%= form_with(model: task, local: true) do |form| %>
+            <%= form.check_box :completed, id: :task_completed, onchange: "this.form.submit();" %>
+          <% end %>
+        </td>
+        <td>
+          <% if task.categories.any? %>
+            <%= render task.categories %>
+          <% end %>
+        </td>
+        <td><%= task.name %></td>
+        <td><%= task.deadline %></td>
+        <td><%= (task.deadline - Date.today).to_i %></td>
+        <% if logged_in? && (task.user == current_user || current_user.admin? ) %>
+          <td><%= link_to 'Edit', edit_task_path(task) %></td>
+          <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<div class="flickr_pagination">
+  <%= will_paginate tasks, :container => false %>
+</div>

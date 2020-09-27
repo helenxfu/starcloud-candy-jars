@@ -18,7 +18,11 @@
 
   <div class="field">
     <%= form.label :priority %>
-    <%= form.number_field :priority, id: :task_priority %>
+    <div class="flexbox">
+      <%= form.radio_button :priority, 0, checked: true %><%= form.label "Low" %>
+      <%= form.radio_button :priority, 1 %><%= form.label "Mid" %>
+      <%= form.radio_button :priority, 2 %><%= form.label "High" %>
+    </div>
   </div>
 
   <div class="field">
@@ -28,7 +32,13 @@
 
   <div class="field">
     <%= form.label :deadline %>
-    <%= form.date_select :deadline, id: :task_deadline %>
+    <%= form.date_select :deadline, default: Date.today, id: :task_deadline %>
+  </div>
+
+  <div class="field">
+    <%= form.label :category %>
+    <%= link_to 'New Category', new_category_path %><br />
+    <%= form.collection_select(:category_ids, Category.all, :id, :name, { prompt: "Can be Empty or Multiple"}, {multiple: true, size: 5, class: "custom-select"}) %>
   </div>
 
   <div class="actions">

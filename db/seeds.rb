@@ -29,15 +29,16 @@ users.each do |user|
     body = Faker::Lorem.paragraph(sentence_count: rand(1..5))
     user.messages.create!(body: body)
   end
+  rand(10).times do
+    name = Faker::Educator.unique.subject[0..24]
+    user.categories.create!(name: name, priority: rand(3))
+  end
   rand(30).times do
     name = Faker::Lorem.sentence(word_count: rand(1..7))[0..99]
     deadline = Faker::Date.between(from: 10.days.ago, to: "2021-09-25")
     completed = Faker::Boolean.boolean(true_ratio: 0.1)
-    user.tasks.create!(name: name, priority: rand(3), deadline: deadline, completed: completed)
-  end
-  rand(10).times do
-    name = Faker::Educator.unique.subject[0..24]
-    user.categories.create!(name: name, priority: rand(3))
+    category_ids = user.categories.ids.sample(rand(4))
+    user.tasks.create!(name: name, priority: rand(3), deadline: deadline, completed: completed, category_ids: category_ids)
   end
   Faker::Educator.unique.clear
 end

@@ -9,6 +9,12 @@
   <strong>Priority:</strong>
   <%= @category.priority %>
 </p>
+<p>
+  <strong>Count:</strong>
+  <%= pluralize(@category.tasks.count, "task") %>
+</p>
+
+<%= render "tasks/task", tasks: @tasks %>
 
 <%= link_to 'Edit', edit_category_path(@category) %> |
 <%= link_to 'Back', categories_path %>
