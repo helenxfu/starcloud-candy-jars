@@ -4,7 +4,8 @@ class MessagesController < ApplicationController
   def create
     @message = current_user.messages.new(message_params)
     if @message.save
-      redirect_back(fallback_location: root_url)
+      # redirect_back(fallback_location: root_url)
+      ActionCable.server.broadcast "chatroom_channel", tweet: @message.body
     else
       flash[:danger] = "Message create failed: #{@message.errors.full_messages}"
       redirect_back(fallback_location: root_url)
