@@ -21,13 +21,6 @@ ActiveRecord::Schema.define(version: 20200927151301) do
     t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
-  create_table "messages", force: :cascade do |t|
-    t.text "body"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "task_categories", force: :cascade do |t|
     t.integer "task_id"
     t.integer "category_id"
