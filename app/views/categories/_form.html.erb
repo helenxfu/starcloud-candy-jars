@@ -18,7 +18,11 @@
 
   <div class="field">
     <%= form.label :priority %>
-    <%= form.number_field :priority, id: :category_priority %>
+    <div class="flexbox">
+      <%= form.radio_button :priority, 0, checked: true %><%= form.label "Low" %>
+      <%= form.radio_button :priority, 1 %><%= form.label "Mid" %>
+      <%= form.radio_button :priority, 2 %><%= form.label "High" %>
+    </div>
   </div>
 
   <div class="actions">
