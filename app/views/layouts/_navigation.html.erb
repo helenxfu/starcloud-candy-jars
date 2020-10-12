@@ -10,7 +10,7 @@
 
   <%= link_to "Users", users_path %>
   <%= link_to "Tasks", tasks_path %>
-  <%# <%= link_to "Chatroom", chatroom_path %> 
+
   <div>
     <% if logged_in? %>
       <%= "Admin" if current_user.admin? %>
