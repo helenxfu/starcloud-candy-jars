@@ -8,7 +8,7 @@ class UserMailer < ApplicationMailer
   def account_activation(user)
     @user = user
 
-    mail to: user.email, subject: "Starcloud Candy Jars: Account Activation"
+    mail to: user.email, subject: "Task Manager: Account Activation"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -19,6 +19,6 @@ class UserMailer < ApplicationMailer
   def password_reset(user)
     @user = user
 
-    mail to: user.email, subject: "Starcloud Candy Jars: Password Reset"
+    mail to: user.email, subject: "Task Manager: Password Reset"
   end
 end
