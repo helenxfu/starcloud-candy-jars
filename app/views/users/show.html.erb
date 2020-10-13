@@ -10,7 +10,7 @@
   <%= @user.email %>
 </p>
 
-<% if logged_in? && (current_user == @user || current_user.admin?) %>
+<% if logged_in? && current_user == @user %>
   <p>
     <strong>Password:</strong>
     <%= link_to 'Edit profile', edit_user_path(@user) %>

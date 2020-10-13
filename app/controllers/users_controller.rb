@@ -65,11 +65,11 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:username, :email, :admin, :activated, :password)
+    params.require(:user).permit(:username, :email, :activated, :password)
   end
 
   def require_same_user
-    if current_user != @user && !current_user.admin?
+    if current_user != @user
       flash[:alert] = "No permission"
       redirect_to @user
     end
