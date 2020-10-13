@@ -3,12 +3,6 @@ class UsersController < ApplicationController
   before_action :require_user, only: [:edit, :update]
   before_action :require_same_user, only: [:edit, :update, :destroy]
 
-  # GET /users
-  # GET /users.json
-  def index
-    @users = User.paginate(page: params[:page], per_page: 20)
-  end
-
   # GET /users/1
   # GET /users/1.json
   def show
@@ -57,7 +51,7 @@ class UsersController < ApplicationController
     @user.destroy
     session[:user_id] = nil if @user == current_user
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
+      format.html { redirect_to root, notice: "User was successfully destroyed." }
       format.json { head :no_content }
     end
   end
