@@ -3,11 +3,9 @@
 one:
   username: MyString
   email: MyString
-  admin: false
   activated: false
 
 two:
   username: MyString
   email: MyString
-  admin: false
   activated: false

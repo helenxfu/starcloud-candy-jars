@@ -7,14 +7,11 @@
     <span>中文</span>
   </div>
   <%= link_to "Home", root_path %>
-  <%= link_to "About", about_path %>
 
-  <%= link_to "Users", users_path %>
   <%= link_to "Tasks", tasks_path %>
-  <%# <%= link_to "Chatroom", chatroom_path %> 
+
   <div>
     <% if logged_in? %>
-      <%= "Admin" if current_user.admin? %>
       <%= link_to current_user.username, user_path(current_user) %>
       <%= link_to "Logout", logout_path, method: :delete %>
     <% else %>

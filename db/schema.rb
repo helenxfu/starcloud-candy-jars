@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200927151301) do
+ActiveRecord::Schema.define(version: 20201013105110) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
@@ -19,13 +19,6 @@ ActiveRecord::Schema.define(version: 20200927151301) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_categories_on_user_id"
-  end
-
-  create_table "messages", force: :cascade do |t|
-    t.text "body"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "task_categories", force: :cascade do |t|
@@ -54,7 +47,6 @@ ActiveRecord::Schema.define(version: 20200927151301) do
     t.datetime "activated_at"
     t.string "reset_digest"
     t.datetime "reset_sent_at"
-    t.boolean "admin", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

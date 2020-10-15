@@ -5,11 +5,8 @@ Rails.application.routes.draw do
       get :delete_all, :delete_completed
     end
   end
-  # get "chatroom", to: "chatroom#index"
-  # resources :messages, only: [:create, :destroy]
   root "pages#home"
-  get "about", to: "pages#about"
-  resources :users, except: [:new]
+  resources :users, except: [:index, :new]
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
   get "signup", to: "users#new"

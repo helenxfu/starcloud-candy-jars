@@ -6,11 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# create admin
-User.create!(username: "Admin User",
-             email: "admin@test.test",
+# create demo
+User.create!(username: "Demo Account",
+             email: "demo@test.test",
              password: "foobar",
-             admin: true,
              activated: true,
              activated_at: Time.zone.now)
 
@@ -25,10 +24,6 @@ end
 users = User.order(:created_at).take(6)
 
 users.each do |user|
-  rand(30).times do
-    body = Faker::Lorem.paragraph(sentence_count: rand(1..5))
-    user.messages.create!(body: body)
-  end
   rand(10).times do
     name = Faker::Educator.unique.subject[0..24]
     user.categories.create!(name: name, priority: rand(3))
