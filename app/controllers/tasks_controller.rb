@@ -3,8 +3,6 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:edit, :update, :destroy]
 
   def index
-    @categories = current_user.categories.paginate(page: params[:page], per_page: 20)
-    @task = Task.new
     @tasks = current_user.tasks.paginate(page: params[:page], per_page: 50)
   end
 
@@ -20,7 +18,7 @@ class TasksController < ApplicationController
     @task = current_user.tasks.new(task_params)
     if @task.save
       flash[:success] = "Task created!"
-      redirect_back(fallback_location: root_url)
+      redirect_to tasks_path
     else
       flash[:danger] = "Task failed: #{@task.errors.full_messages}"
       redirect_back(fallback_location: root_url)
@@ -30,7 +28,7 @@ class TasksController < ApplicationController
   def update
     if @task.update(task_params)
       flash[:success] = "Task updated!"
-      redirect_back(fallback_location: root_url)
+      redirect_to tasks_path
     else
       flash[:danger] = "Task update failed: #{@task.errors.full_messages}"
       redirect_back(fallback_location: root_url)
