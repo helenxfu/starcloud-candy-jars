@@ -21,7 +21,7 @@
         <td><%= task.priority == 0 ? "Low" : task.priority == 1 ? "Mid" : "High" %></td>
         <td>
           <%= form_with(model: task, local: true) do |form| %>
-            <%= form.check_box :completed, id: :task_completed, onchange: "this.form.submit();" %>
+            <%= form.check_box :completed, onchange: "this.form.submit();" %>
           <% end %>
         </td>
         <td>
