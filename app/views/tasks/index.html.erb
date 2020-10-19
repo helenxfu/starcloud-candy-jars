@@ -9,6 +9,22 @@
 <%= link_to 'New Task', new_task_path %>
 <%= render 'filter', tasks: @tasks %>
 
+<%= form_with(url: "tasks", method: "get") do %>
+  <%= select_tag :category_id, options_from_collection_for_select(current_user.categories, :id, :name), onchange: "this.form.submit();", prompt: "Filter categories" %>
+<% end %>
+
+<%= form_with(url: "tasks", method: "get") do %>
+  <%= text_field_tag :search, params[:search], onkeyup: "this.form.submit();" %>
+<% end %>
+
+<%= form_with(url: "tasks", method: "get") do %>
+  <%= select_tag :completion, options_for_select([['All', "all"], ['Completed', true], ['In Progress', false]]), onchange: "this.form.submit();" %>
+<% end %>
+
+<%= form_with(url: "tasks", method: "get") do %>
+  <%= select_tag :priority, options_for_select([['All', "all"], ['low', 0], ['mid', 1], ['high', 2]]), onchange: "this.form.submit();" %>
+<% end %>
+
 <%= render 'task', tasks: @tasks %>
 
 <br>
