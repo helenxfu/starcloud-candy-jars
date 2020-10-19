@@ -4,18 +4,15 @@ class TasksController < ApplicationController
   before_action :index_params, only: :index
 
   def index
-    # debugger
-    if params[:search]
-      @tasks = current_user.tasks.where("name LIKE ?", "%#{params[:search]}%").paginate(page: params[:page], per_page: 50)
-    elsif params[:category_id]
-      category_id = params[:category_id].to_i
-      @tasks = current_user.categories.find(category_id).tasks.paginate(page: params[:page], per_page: 50)
-    elsif params[:completion]
-      completion = params[:completion] == "true" ? true : false
-      @tasks = current_user.tasks.where(completed: completion).paginate(page: params[:page], per_page: 50)
-    elsif params[:priority]
-      priority = params[:priority].to_i
-      @tasks = current_user.tasks.where(priority: priority).paginate(page: params[:page], per_page: 50)
+    unless params[:search].nil?
+      search = params[:search].blank? ? "" : params[:search]
+      completion = params[:completion] == "true" ? true : params[:completion] == "false" ? false : [true, false]
+      priority = params[:priority].blank? ? [0, 1, 2] : params[:priority].to_i
+      if params[:category_id].blank?
+        @tasks = current_user.tasks.where(completed: completion, priority: priority).where("name LIKE ?", "%#{search}%").paginate(page: params[:page], per_page: 50)
+      else
+        @tasks = current_user.categories.find(params[:category_id].to_i).tasks.where(completed: completion, priority: priority).where("name LIKE ?", "%#{search}%").paginate(page: params[:page], per_page: 50)
+      end
     else
       @tasks = current_user.tasks.paginate(page: params[:page], per_page: 50)
     end
