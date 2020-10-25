@@ -1,21 +1,20 @@
 class TasksController < ApplicationController
   before_action :require_user
   before_action :set_task, only: [:edit, :update, :destroy]
-  before_action :index_params, only: :index
 
   def index
-    unless params[:search].nil?
-      search = params[:search].blank? ? "" : params[:search]
-      completion = params[:completion] == "true" ? true : params[:completion] == "false" ? false : [true, false]
-      priority = params[:priority].blank? ? [0, 1, 2] : params[:priority].to_i
-      if params[:category_id].blank?
-        @tasks = current_user.tasks.where(completed: completion, priority: priority).where("name LIKE ?", "%#{search}%").paginate(page: params[:page], per_page: 50)
-      else
-        @tasks = current_user.categories.find(params[:category_id].to_i).tasks.where(completed: completion, priority: priority).where("name LIKE ?", "%#{search}%").paginate(page: params[:page], per_page: 50)
-      end
-    else
-      @tasks = current_user.tasks.paginate(page: params[:page], per_page: 50)
-    end
+
+    completion = params[:completion] == "true" ? true : params[:completion] == "false" ? false : [true, false]
+    priority = params[:priority].blank? ? [0, 1, 2] : params[:priority].to_i
+
+    @tasks = current_user.tasks
+    
+    @tasks = @tasks.joins(:task_categories).where(task_categories: {category_id: params[:category_id].to_i}) if params[:category_id].present?
+    @tasks = @tasks.where("name LIKE ?", "%#{params[:search]}%") if params[:search].present?
+    @tasks = @tasks.where(completed: completion) if params[:completion].present?
+    @tasks = @tasks.where(priority: priority) if params[:priority].present?
+
+    @tasks = @tasks.paginate(page: params[:page], per_page: 50)
   end
 
   def new
@@ -66,11 +65,6 @@ class TasksController < ApplicationController
     redirect_back(fallback_location: root_url)
   end
 
-  def filter_tasks(id)
-    @tasks = current_user.tasks.where(category: id).paginate(page: params[:page], per_page: 50)
-    render tasks
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -83,7 +77,4 @@ class TasksController < ApplicationController
     params.require(:task).permit(:name, :priority, :completed, :deadline, category_ids: [])
   end
 
-  def index_params
-    # params.permit(:search, :category_id, :completion)
-  end
 end

@@ -16,7 +16,13 @@
 
   <%= select_tag :completion, options_for_select([['All', ''], ['Completed', true], ['In Progress', false]]), onchange: "this.form.submit();" %>
 
-  <%= select_tag :priority, options_for_select([['All', ''], ['low', 0], ['mid', 1], ['high', 2]]), onchange: "this.form.submit();" %>
+      <div class="flexbox">
+      <%= form.radio_button :priority, 0 %><%= form.label "Low" %>
+      <%= form.radio_button :priority, 1 %><%= form.label "Mid" %>
+      <%= form.radio_button :priority, 2 %><%= form.label "High" %>
+    </div>
+
+  <%= form.submit %>
 <% end %>
 
 <%= render 'task', tasks: @tasks %>
