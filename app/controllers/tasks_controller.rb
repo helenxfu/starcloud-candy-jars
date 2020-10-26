@@ -3,9 +3,17 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:edit, :update, :destroy]
 
   def index
-    @tasks = current_user.tasks.paginate(page: params[:page], per_page: 50)
-  end
+    completed = params[:completed] == "1" ? true : false if params[:completed].present? 
 
+    @tasks = current_user.tasks
+
+    @tasks = @tasks.joins(:task_categories).where(task_categories: {category_id: params[:category_id].to_i}) if params[:category_id].present?
+    @tasks = @tasks.where("name LIKE ?", "%#{params[:search]}%") if params[:search].present?
+    @tasks = @tasks.where(completed: completed) if params[:completed].present?
+    @tasks = @tasks.where(priority: params[:priority]) if params[:priority].present?
+
+    @tasks = @tasks.paginate(page: params[:page], per_page: 50)
+  end
 
   def new
     @task = Task.new
@@ -66,4 +74,5 @@ class TasksController < ApplicationController
   def task_params
     params.require(:task).permit(:name, :priority, :completed, :deadline, category_ids: [])
   end
+
 end

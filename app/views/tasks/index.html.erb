@@ -9,6 +9,27 @@
 <%= link_to 'New Task', new_task_path %>
 <%= render 'filter', tasks: @tasks %>
 
+<%= form_with(url: "tasks", method: "get", local: true) do |form| %>
+  <%= form.select :category_id, options_from_collection_for_select(current_user.categories, :id, :name), prompt: "Filter categories" %>
+
+  <%= form.text_field :search %>
+
+  <div class="flexbox">
+    <%= form.label :completed %>
+    <%= form.radio_button :completed, 1 %><%= form.label "True" %>
+    <%= form.radio_button :completed, 0 %><%= form.label "False" %>
+  </div>
+
+  <div class="flexbox">
+    <%= form.label :priority %>
+    <%= form.radio_button :priority, 0 %><%= form.label "Low" %>
+    <%= form.radio_button :priority, 1 %><%= form.label "Mid" %>
+    <%= form.radio_button :priority, 2 %><%= form.label "High" %>
+  </div>
+
+  <%= form.submit "search" %>
+<% end %>
+
 <%= render 'task', tasks: @tasks %>
 
 <br>
