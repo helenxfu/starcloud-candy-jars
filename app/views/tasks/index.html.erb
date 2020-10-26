@@ -10,7 +10,7 @@
 <%= render 'filter', tasks: @tasks %>
 
 <%= form_with(url: "tasks", method: "get", local: true) do |form| %>
-  <%= select_tag :category_id, options_from_collection_for_select(current_user.categories, :id, :name), prompt: "Filter categories" %>
+  <%= form.select :category_id, options_from_collection_for_select(current_user.categories, :id, :name), prompt: "Filter categories" %>
 
   <%= form.text_field :search %>
 
@@ -27,7 +27,7 @@
     <%= form.radio_button :priority, 2 %><%= form.label "High" %>
   </div>
 
-  <%= form.submit %>
+  <%= form.submit "search" %>
 <% end %>
 
 <%= render 'task', tasks: @tasks %>
